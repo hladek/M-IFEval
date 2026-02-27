@@ -23,9 +23,8 @@ import time
 from typing import Any
 
 SYSTEM_PROMPT = (
-    "You are a translation engine. "
-    "Translate the given text from English into Slovak. "
-    "Return only the translated text with no extra explanation."
+    "You are a translation engine. Your receive text in JSON format. Your goal is to pick some values and translate them into Slovak. Don't translate value of instruction_id_list."
+    "Translate value of prompt key into Slovak langugage. Translate all english words in kwargs key into Slovak. Leave all special characters and unknown strings intact.  Make sure the Slovak text is grammatically correct.  Your output must be valid JSON, nothing else."
 )
 
 
@@ -104,9 +103,7 @@ def main() -> None:
                 print(f"[error] Line {lineno}: invalid JSON – {exc}", file=sys.stderr)
                 sys.exit(1)
 
-            if "prompt" in obj and isinstance(obj["prompt"], str):
-                obj["prompt"] = translate_object(client, obj["prompt"], args.model, args.retries)
-            translated = obj
+            translated = translate_object(client, obj, args.model, args.retries)
             fout.write(json.dumps(translated, ensure_ascii=False) + "\n")
             print(f"[info] Translated line {lineno}", file=sys.stderr)
 
