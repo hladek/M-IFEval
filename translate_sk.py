@@ -24,18 +24,15 @@ from typing import Any
 
 SYSTEM_PROMPT = (
     "You are a translation engine. "
-    "You will receive a JSON object. "
-    "Translate all string values from English into Slovak. "
-    "Keep all JSON keys unchanged. "
-    "Do not translate keys, only values. "
-    "Preserve the original JSON structure exactly, including nested objects and arrays. "
-    "Return only valid JSON with no extra explanation."
+    "Translate the given text from English into Slovak. "
+    "Return only the translated text with no extra explanation."
 )
 
 
 def translate_object(client, obj: Any, model: str, retries: int = 3) -> Any:
-    """Send a whole JSON object to the API and return the translated object."""
-    text = json.dumps(obj, ensure_ascii=False)
+    """Send a string or JSON object to the API and return the translated result."""
+    is_str = isinstance(obj, str)
+    text = obj if is_str else json.dumps(obj, ensure_ascii=False)
     for attempt in range(retries):
         try:
             response = client.chat.completions.create(
@@ -47,7 +44,7 @@ def translate_object(client, obj: Any, model: str, retries: int = 3) -> Any:
                 temperature=0.0,
             )
             result = response.choices[0].message.content.strip()
-            return json.loads(result)
+            return result if is_str else json.loads(result)
         except json.JSONDecodeError as exc:
             if attempt == retries - 1:
                 raise ValueError(f"Model returned invalid JSON: {exc}") from exc
@@ -107,7 +104,9 @@ def main() -> None:
                 print(f"[error] Line {lineno}: invalid JSON – {exc}", file=sys.stderr)
                 sys.exit(1)
 
-            translated = translate_object(client, obj, args.model, args.retries)
+            if "prompt" in obj and isinstance(obj["prompt"], str):
+                obj["prompt"] = translate_object(client, obj["prompt"], args.model, args.retries)
+            translated = obj
             fout.write(json.dumps(translated, ensure_ascii=False) + "\n")
             print(f"[info] Translated line {lineno}", file=sys.stderr)
 
