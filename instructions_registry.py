@@ -18,6 +18,7 @@ from instructions import en_instructions
 from instructions import ja_instructions
 from instructions import es_instructions
 from instructions import fr_instructions
+from instructions import sk_instructions
 
 _KEYWORD = "keywords:"
 
@@ -217,3 +218,35 @@ INSTRUCTION_DICT.update({"en:" + k: v for k, v in EN_INSTRUCTION_DICT.items()})
 INSTRUCTION_DICT.update({"ja:" + k: v for k, v in JA_INSTRUCTION_DICT.items()})
 INSTRUCTION_DICT.update({"fr:" + k: v for k, v in FR_INSTRUCTION_DICT.items()})
 INSTRUCTION_DICT.update({"es:" + k: v for k, v in ES_INSTRUCTION_DICT.items()})
+
+SK_INSTRUCTION_DICT = {
+    _KEYWORD + "existence": sk_instructions.KeywordChecker,
+    _KEYWORD + "frequency": sk_instructions.KeywordFrequencyChecker,
+    _KEYWORD + "forbidden_words": sk_instructions.ForbiddenWords,
+    _KEYWORD + "letter_frequency": sk_instructions.LetterFrequencyChecker,
+    _LANGUAGE + "response_language": sk_instructions.ResponseLanguageChecker,
+    _LENGTH + "number_sentences": sk_instructions.NumberOfSentences,
+    _LENGTH + "number_paragraphs": sk_instructions.ParagraphChecker,
+    _LENGTH + "number_words": sk_instructions.NumberOfWords,
+    _LENGTH + "nth_paragraph_first_word": sk_instructions.ParagraphFirstWordCheck,
+    _CONTENT + "number_placeholders": sk_instructions.PlaceholderChecker,
+    _CONTENT + "postscript": sk_instructions.PostscriptChecker,
+    _FORMAT + "number_bullet_lists": sk_instructions.BulletListChecker,
+    _FORMAT + "constrained_response": sk_instructions.ConstrainedResponseChecker,
+    _FORMAT + "number_highlighted_sections": sk_instructions.HighlightSectionChecker,
+    _FORMAT + "multiple_sections": sk_instructions.SectionChecker,
+    _FORMAT + "json_format": sk_instructions.JsonFormat,
+    _FORMAT + "title": sk_instructions.TitleChecker,
+    _COMBINATION + "two_responses": sk_instructions.TwoResponsesChecker,
+    _COMBINATION + "repeat_prompt": sk_instructions.RepeatPromptThenAnswer,
+    _STARTEND + "end_checker": sk_instructions.EndChecker,
+    _STARTEND + "quotation": sk_instructions.QuotationChecker,
+    _CHANGE_CASES
+    + "capital_word_frequency": sk_instructions.CapitalWordFrequencyChecker,
+    _CHANGE_CASES
+    + "english_capital": sk_instructions.CapitalLettersEnglishChecker,
+    _CHANGE_CASES
+    + "english_lowercase": sk_instructions.LowercaseLettersEnglishChecker,
+    _PUNCTUATION + "no_comma": sk_instructions.CommaChecker,
+}
+INSTRUCTION_DICT.update({"sk:" + k: v for k, v in SK_INSTRUCTION_DICT.items()})
