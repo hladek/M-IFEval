@@ -574,7 +574,7 @@ class KeywordFrequencyChecker(Instruction):
       self._comparison_relation = relation
 
     self._description_pattern = (
-        "Vo svojej odpovedi musí slovo {keyword} aparecer {relation} "
+        "V odpovedi sa musí slovo {keyword} objaviť {relation} "
         "{frequency} krát.")
 
     return self._description_pattern.format(
