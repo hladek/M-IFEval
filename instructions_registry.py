@@ -244,9 +244,9 @@ SK_INSTRUCTION_DICT = {
     _CHANGE_CASES
     + "capital_word_frequency": sk_instructions.CapitalWordFrequencyChecker,
     _CHANGE_CASES
-    + "english_capital": sk_instructions.CapitalLettersEnglishChecker,
+    + "slovak_capital": sk_instructions.CapitalLettersSlovakChecker,
     _CHANGE_CASES
-    + "english_lowercase": sk_instructions.LowercaseLettersEnglishChecker,
+    + "slovak_lowercase": sk_instructions.LowercaseLettersSlovakChecker,
     _PUNCTUATION + "no_comma": sk_instructions.CommaChecker,
 }
 INSTRUCTION_DICT.update({"sk:" + k: v for k, v in SK_INSTRUCTION_DICT.items()})

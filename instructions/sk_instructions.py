@@ -1010,13 +1010,13 @@ class LetterFrequencyChecker(Instruction):
       return letters[self._letter] <= self._frequency
 
 
-class CapitalLettersEnglishChecker(Instruction):
-  """Checks that the response is in English and in all capital letters."""
+class CapitalLettersSlovakChecker(Instruction):
+  """Checks that the response is in Slovak and in all capital letters."""
 
   def build_description(self):
     """Build the instruction description."""
     self._description_pattern = (
-        "Celá tvoja odpoveď musí byť v angličtine, iba veľké písmená."
+        "Celá tvoja odpoveď musí byť v slovenčine, iba veľké písmená."
     )
     return self._description_pattern
 
@@ -1029,20 +1029,20 @@ class CapitalLettersEnglishChecker(Instruction):
   def check_following(self, value):
     assert isinstance(value, str)
     try:
-      return value.isupper() and langdetect.detect(value) == "en"
+      return value.isupper() and langdetect.detect(value) == "sk"
     except langdetect.LangDetectException as e:
       logging.error(
           "Unable to detect language for text %s due to %s", value, e)
       return True
 
 
-class LowercaseLettersEnglishChecker(Instruction):
-  """Checks that the response is in English and in all lowercase letters."""
+class LowercaseLettersSlovakChecker(Instruction):
+  """Checks that the response is in Slovak and in all lowercase letters."""
 
   def build_description(self):
     """Build the instruction description."""
     self._description_pattern = (
-        "Celá tvoja odpoveď musí byť v angličtine, iba malé písmená. "
+        "Celá tvoja odpoveď musí byť v slovenčine, iba malé písmená. "
         "Veľké písmená nie sú povolené."
     )
     return self._description_pattern
@@ -1056,7 +1056,7 @@ class LowercaseLettersEnglishChecker(Instruction):
   def check_following(self, value):
     assert isinstance(value, str)
     try:
-      return value.islower() and langdetect.detect(value) == "en"
+      return value.islower() and langdetect.detect(value) == "sk"
     except langdetect.LangDetectException as e:
       logging.error(
           "Unable to detect language for text %s due to %s", value, e)
